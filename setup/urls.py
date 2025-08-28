@@ -24,6 +24,7 @@ from tweet import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/logout/', auth_views.LogoutView.as_view(template_name='logged_out.html'), name='logout'),
     path('tweet/', include('tweet.urls')),
     path('register/', views.register, name='register'),
 ]
