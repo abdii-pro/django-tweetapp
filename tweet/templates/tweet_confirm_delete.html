@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}Delete Tweet - TweetApp{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <i class="bi bi-exclamation-triangle text-warning display-1 mb-4"></i>
+                <h2 class="card-title mb-4">Delete Tweet?</h2>
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <p class="card-text">{{ tweet.text }}</p>
+                        {% if tweet.photo %}
+                            <img src="{{ tweet.photo.url }}" alt="Tweet photo" class="img-thumbnail mb-3" style="max-height: 200px">
+                        {% endif %}
+                        <p class="text-muted mb-0">Posted {{ tweet.created_at|timesince }} ago</p>
+                    </div>
+                </div>
+
+                <p class="text-danger mb-4">This action cannot be undone.</p>
+
+                <form method="post" class="d-flex justify-content-center gap-3">
+                    {% csrf_token %}
+                    <a href="{% url 'index' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-x-lg"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Delete Tweet
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+    
+    
