@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Tweets
+{% endblock title %}
+
+{% comment %} Main body {% endcomment %}
+{% block content %}
+    <h1 class="text-center mt-4">Are you Sure that you want to delete the Tweet?</h1>
+
+    <form method="post" class="form">
+        {% csrf_token %}
+        <button class="btn btn-danger">Delete</button>
+        <a class="btn btn-success" href="{% url 'index' %}">Cancel</a>
+    </form>
+{% endblock content %}
+    
+    
