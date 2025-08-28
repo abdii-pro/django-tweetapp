@@ -1,25 +1,78 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-  Tweets
+    {% if form.instance.pk %}Edit{% else %}Create{% endif %} Tweet - TweetApp
 {% endblock %}
 
-{% comment %}Main body{% endcomment %}
 {% block content %}
-  <h1 class="text-center mt-4">Welcome to the Tweet App</h1>
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="form-container">
+            <h2 class="text-center mb-4">
+                <i class="bi bi-{% if form.instance.pk %}pencil-square{% else %}plus-circle{% endif %}"></i>
+                {% if form.instance.pk %}
+                    Edit Tweet
+                {% else %}
+                    Create New Tweet
+                {% endif %}
+            </h2>
 
-  <h2>
-    {% if form.instance.pk %}
-      Edit Tweet
-    {% else %}
-      Create Tweet
-    {% endif %}
-  </h2>
+            <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="{{ form.text.id_for_label }}" class="form-label">Tweet Text</label>
+                    {{ form.text }}
+                    {% if form.text.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.text.errors }}
+                        </div>
+                    {% endif %}
+                </div>
 
-  <form method="post" enctype="multipart/form-data" class="form">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-warning" type="submit">Submit</button>
-  </form>
-  <a href="{% url 'index' %}" class="btn btn-primary mt-3">Back to Home</a>
+                <div class="mb-4">
+                    <label for="{{ form.photo.id_for_label }}" class="form-label">Photo (optional)</label>
+                    {{ form.photo }}
+                    {% if form.photo.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.photo.errors }}
+                        </div>
+                    {% endif %}
+                    {% if form.instance.photo %}
+                        <div class="mt-2">
+                            <small class="text-muted">Current photo:</small><br>
+                            <img src="{{ form.instance.photo.url }}" alt="Current photo" class="img-thumbnail mt-2" style="max-height: 200px">
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg"></i>
+                        {% if form.instance.pk %}Save Changes{% else %}Create Tweet{% endif %}
+                    </button>
+                    <a href="{% url 'index' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to Home
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add Bootstrap form validation styles to the form fields
+    document.addEventListener('DOMContentLoaded', function() {
+        const textInput = document.getElementById('{{ form.text.id_for_label }}');
+        if (textInput) {
+            textInput.classList.add('form-control');
+            textInput.setAttribute('placeholder', 'What\'s on your mind?');
+        }
+
+        const photoInput = document.getElementById('{{ form.photo.id_for_label }}');
+        if (photoInput) {
+            photoInput.classList.add('form-control');
+        }
+    });
+</script>
 {% endblock %}
