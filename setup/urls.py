@@ -20,8 +20,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from tweet import views
+from django.views.generic import RedirectView
+
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='/tweet/', permanent=False)),  # redirect root → /tweet/
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/logout/', auth_views.LogoutView.as_view(template_name='logged_out.html'), name='logout'),
